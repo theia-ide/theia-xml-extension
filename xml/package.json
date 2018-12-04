@@ -1,0 +1,37 @@
+{
+  "name": "@theia/xml",
+  "description": "XML support for the Theia IDE",
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "theia-extension"
+  ],
+  "license": "EPL-1.0",
+  "version": "0.1.0",
+  "files": [
+    "data",
+    "lib",
+    "src",
+    "lsp4xml"
+  ],
+  "dependencies": {
+    "@theia/core": "next"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.2",
+    "typescript": "^2.7.2"
+  },
+  "scripts": {
+    "prepare": "yarn run clean && yarn run build",
+    "clean": "rimraf lib",
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "theiaExtensions": [
+    {
+      "frontend": "lib/browser/xml-frontend-module",
+      "backend": "lib/node/xml-backend-module"
+    }
+  ]
+}
