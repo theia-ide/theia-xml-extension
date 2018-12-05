@@ -1,4 +1,3 @@
-
 /********************************************************************************
  * Copyright (C) 2018 TypeFox and others.
  *
@@ -17,47 +16,32 @@
 
 import { interfaces } from 'inversify';
 import { createPreferenceProxy, PreferenceProxy, PreferenceService, PreferenceContribution, PreferenceSchema } from '@theia/core/lib/browser';
-import { JsonSchemaConfiguration } from '@theia/core/lib/browser/json-schema-store';
 
 export const XMLConfigSchema: PreferenceSchema = {
     'type': 'object',
     "properties": {
-        "xml.schemas": {
-            "type": "array",
-            'items': {
-                'type': 'object',
-                'default': {
-                    'fileMatch': [
-                        '/myfile'
-                    ],
-                    'url': 'schemaURL'
-                },
-                'properties': {
-                    'url': {
-                        'type': 'string',
-                        'default': '/user.schema.json',
-                        'description': 'A URL to a schema or a relative path to a schema in the current directory'
-                    },
-                    'fileMatch': {
-                        'type': 'array',
-                        'items': {
-                            'type': 'string',
-                            'default': 'MyFile.xsd',
-                            'description': 'A file pattern that can contain \'*\' to match against when resolving files to schemas.'
-                        },
-                        'minItems': 1,
-                        'description': 'An array of file patterns to match against when resolving files to JSON schemas.'
-                    }
-                }
-            },
-            "description": "Associate schemas to files in the current workspace"
+        "xml.logs.client": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable/disable client log"
+        },
+        "xml.format.enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable/disable default XML formatter (requires restart)"
+        },
+        "xml.format.splitAttributes": {
+            "type": "boolean",
+            "default": true,
+            "description": "Split multiple attributes each onto a new line"
         }
     }
 };
 
 export interface XMLConfiguration {
-    'xml.trace.server': 'off'|'messages'|'verbose',
-    'xml.schemas': JsonSchemaConfiguration[]
+    'xml.logs.client': boolean,
+    'xml.format.enabled': boolean,
+    'xml.format.splitAttributes': boolean
 }
 
 export const XMLPreferences = Symbol('XMLPreferences');

@@ -1,4 +1,3 @@
-
 /********************************************************************************
  * Copyright (C) 2018 TypeFox and others.
  *
@@ -18,8 +17,6 @@
 import { injectable, inject } from "inversify";
 import { BaseLanguageClientContribution, Workspace, Languages, LanguageClientFactory, ILanguageClient } from '@theia/languages/lib/browser';
 import { XML_LANGUAGE_ID, XML_LANGUAGE_NAME } from '../common';
-import { XMLPreferences } from "./xml-preferences";
-import { JsonSchemaStore } from '@theia/core/lib/browser/json-schema-store';
 import { ResourceProvider } from "@theia/core";
 import URI from "@theia/core/lib/common/uri";
 
@@ -34,39 +31,8 @@ export class XMLClientContribution extends BaseLanguageClientContribution {
         @inject(ResourceProvider) protected readonly resourceProvider: ResourceProvider,
         @inject(Languages) protected readonly languages: Languages,
         @inject(LanguageClientFactory) protected readonly languageClientFactory: LanguageClientFactory,
-        @inject(XMLPreferences) protected readonly preferences: XMLPreferences,
-        @inject(JsonSchemaStore) protected readonly jsonSchemaStore: JsonSchemaStore
     ) {
         super(workspace, languages, languageClientFactory);
-        preferences.onPreferenceChanged(e => {
-            if (e.preferenceName === 'xml.schemas') {
-                this.updateSchemas();
-            }
-        });
-        jsonSchemaStore.onSchemasChanged(() => {
-            this.updateSchemas();
-        });
-        this.updateSchemas();
-    }
-
-
-
-    protected async updateSchemas(): Promise<void> {
-        const allConfigs = [...this.jsonSchemaStore.getJsonSchemaConfigurations()];
-        const config = this.preferences['xml.schemas'];
-        if (config instanceof Array) {
-            allConfigs.push(...config);
-        }
-        const registry: { [pattern: string]: string[] } = {};
-        for (const s of allConfigs) {
-            if (s.fileMatch) {
-                for (const p of s.fileMatch) {
-                    registry[p] = [s.url];
-                }
-            }
-        }
-        const client = await this.languageClient;
-        client.sendNotification('json/schemaAssociations', registry);
     }
 
     protected get globPatterns() {

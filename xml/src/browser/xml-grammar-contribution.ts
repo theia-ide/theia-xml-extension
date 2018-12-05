@@ -1,4 +1,3 @@
-
 /********************************************************************************
  * Copyright (C) 2018 TypeFox and others.
  *
@@ -27,7 +26,7 @@ export class XmlGrammarContribution implements LanguageGrammarDefinitionContribu
             blockComment: ["<!--", "-->"]
         },
         brackets: [
-           ["<", ">"]
+            ["<", ">"]
         ],
         autoClosingPairs: [
             { open: "<", close: ">" },
@@ -38,12 +37,7 @@ export class XmlGrammarContribution implements LanguageGrammarDefinitionContribu
             { open: "<", close: ">" },
             { open: "\"", close: "\"" },
             { open: "'", close: "'" }
-        ],
-        indentationRules: {
-            increaseIndentPattern: new RegExp(`<(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`, 'i'),
-            // TODO fixme
-            decreaseIndentPattern: new RegExp(`<(\\w[\\w\\d]*)([^/>]*(?!/)>)[^<]*$`, 'i')
-        }
+        ]
     };
 
     registerTextmateLanguage(registry: TextmateRegistry) {
@@ -54,23 +48,23 @@ export class XmlGrammarContribution implements LanguageGrammarDefinitionContribu
                 "xml"
             ],
             "extensions": [
-                ".xml",
-                ".testme"
+                ".xml"
             ],
-            "firstLine":  "(\\<\\?xml.*)|(\\<svg)|(\\<\\!doctype\\s+svg)"
+            "firstLine": "(\\<\\?xml.*)|(\\<svg)|(\\<\\!doctype\\s+svg)"
         });
 
         monaco.languages.setLanguageConfiguration(XML_LANGUAGE_ID, this.config);
-
-        const xmlGrammar = require('../../data/xml.tmLanguage.json');
-        registry.registerTextmateGrammarScope('text.xml', {
-            async getGrammarDefinition() {
-                return {
-                    format: 'json',
-                    content: xmlGrammar
-                };
-            }
-        });
+        if (registry.getProvider('text.xml') == undefined) {
+            const xmlGrammar = require('../../data/xml.tmLanguage.json');
+            registry.registerTextmateGrammarScope('text.xml', {
+                async getGrammarDefinition() {
+                    return {
+                        format: 'json',
+                        content: xmlGrammar
+                    };
+                }
+            });
+        }
         registry.mapLanguageIdToTextmateGrammar(XML_LANGUAGE_ID, 'text.xml');
     }
 }

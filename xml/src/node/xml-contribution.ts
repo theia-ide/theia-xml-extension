@@ -1,4 +1,3 @@
-
 /********************************************************************************
  * Copyright (C) 2018 TypeFox and others.
  *
@@ -18,7 +17,12 @@
 import { injectable } from "inversify";
 import { BaseLanguageServerContribution, IConnection } from "@theia/languages/lib/node";
 import { XML_LANGUAGE_ID, XML_LANGUAGE_NAME } from '../common';
+import { join, resolve } from 'path';
 import * as path from 'path';
+import { FileUri } from '@theia/core/lib/node';
+import URI from '@theia/core/lib/common/uri';
+
+const JAR_PATH = FileUri.fsPath(new URI(resolve(join(__dirname, '..', '..', 'lsp4xml', 'org.eclipse.lsp4xml-all.jar'))))
 
 @injectable()
 export class XMLContribution extends BaseLanguageServerContribution {
@@ -27,14 +31,11 @@ export class XMLContribution extends BaseLanguageServerContribution {
     readonly name = XML_LANGUAGE_NAME;
 
     start(clientConnection: IConnection): void {
-
         try {
-            const pathToJar = '../../lsp4xml/org.eclipse.lsp4xml-all.jar'
             const args: string[] = [
                 '-jar',
-                path.resolve(__dirname, pathToJar)
+                path.resolve(__dirname, JAR_PATH)
             ]
-            console.log(`Path to jar ${pathToJar}`)
             console.log(`Starting XML language server java ${args}`)
             const serverConnection = this.createProcessStreamConnection("java", args)
             this.forward(clientConnection, serverConnection)
@@ -43,7 +44,6 @@ export class XMLContribution extends BaseLanguageServerContribution {
             throw e;
         }
     }
-
 
     protected onDidFailSpawnProcess(error: Error): void {
         super.onDidFailSpawnProcess(error);
