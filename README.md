@@ -32,3 +32,9 @@ Create a npm user and login to the npm registry, [more on npm publishing](https:
 Publish packages with lerna to update versions properly across local packages, [more on publishing with lerna](https://github.com/lerna/lerna#publish).
 
     npx lerna publish
+
+## Additional info
+
+The jar in `xml/lsp4xml/` is produced by the [lsp4xml](https://github.com/angelozerr/lsp4xml) maven build. Unfortunately there is no easy way to consume it during the build [see angelozerr/lsp4xml#229](https://github.com/angelozerr/lsp4xml/issues/229)
+
+To get a new lsp4xml version one need to download and extract the latest version of [vscode-xml vsix file](http://download.jboss.org/jbosstools/vscode-xml/staging/?C=M;O=D). The jar can than be found in `extension/server/` folder.

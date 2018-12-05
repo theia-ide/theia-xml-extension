@@ -32,16 +32,23 @@ export const XMLConfigSchema: PreferenceSchema = {
         },
         "xml.format.splitAttributes": {
             "type": "boolean",
-            "default": true,
+            "default": false,
             "description": "Split multiple attributes each onto a new line"
+        },
+         "xml.format.joinCDATALines": {
+            "type": "boolean",
+            "default": false,
+            "description": "Join lines in a CDATA tag's content"
+        },
+         "xml.format.spaceBeforeEmptyCloseTag": {
+            "type": "boolean",
+            "default": true,
+            "description": "Insert space before end of self closing tag. \nExample:\n  <tag/> -> <tag />"
         }
     }
 };
 
 export interface XMLConfiguration {
-    'xml.logs.client': boolean,
-    'xml.format.enabled': boolean,
-    'xml.format.splitAttributes': boolean
 }
 
 export const XMLPreferences = Symbol('XMLPreferences');

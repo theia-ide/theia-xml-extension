@@ -25,6 +25,7 @@ export class XMLClientContribution extends BaseLanguageClientContribution {
 
     readonly id = XML_LANGUAGE_ID;
     readonly name = XML_LANGUAGE_NAME;
+    get configurationSection() { return 'xml'; }
 
     constructor(
         @inject(Workspace) protected readonly workspace: Workspace,
@@ -34,6 +35,7 @@ export class XMLClientContribution extends BaseLanguageClientContribution {
     ) {
         super(workspace, languages, languageClientFactory);
     }
+
 
     protected get globPatterns() {
         return [
