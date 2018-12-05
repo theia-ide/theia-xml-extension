@@ -9,7 +9,8 @@ To be installed as an extension.
 ## Developing and Trying out
 
 The easiest way to get your hands on this extension is to start this repo using Gitpod.io:
-[![Gitpod - Code Now](https://img.shields.io/badge/Gitpod-code%20now-blue.svg?longCache=true)](https://gitpod.io#https://github.com/theia-ide/theia-xml-extension)
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io#https://github.com/theia-ide/theia-xml-extension)
 
 For local installation:
  - clone
