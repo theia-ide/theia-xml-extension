@@ -15,7 +15,7 @@
  ********************************************************************************/
 
 import { injectable, inject } from "inversify";
-import { BaseLanguageClientContribution, Workspace, Languages, LanguageClientFactory, ILanguageClient, DidChangeConfigurationNotification } from '@theia/languages/lib/browser';
+import { BaseLanguageClientContribution, Workspace, Languages, LanguageClientFactory, ILanguageClient, DidChangeConfigurationNotification, DocumentSelector } from '@theia/languages/lib/browser';
 import { XML_LANGUAGE_ID, XML_LANGUAGE_NAME } from '../common';
 import { ResourceProvider } from "@theia/core";
 import URI from "@theia/core/lib/common/uri";
@@ -25,10 +25,6 @@ export class XMLClientContribution extends BaseLanguageClientContribution {
 
     readonly id = XML_LANGUAGE_ID;
     readonly name = XML_LANGUAGE_NAME;
-
-    get configurationSection() {
-        return ['xml'];
-    }
 
     constructor(
         @inject(Workspace) protected readonly workspace: Workspace,
@@ -40,9 +36,19 @@ export class XMLClientContribution extends BaseLanguageClientContribution {
     }
 
 
+    get configurationSection() {
+        return ['xml'];
+    }
+
+    protected get documentSelector(): DocumentSelector | undefined {
+        // also enable for XSL documents
+        return [this.id, 'xsl'];
+    }
+
     protected get globPatterns() {
         return [
-            '**/*.xml'
+            '**/*.xml',
+            '**/*.xsl'
         ];
     }
 
@@ -58,7 +64,7 @@ export class XMLClientContribution extends BaseLanguageClientContribution {
     }
     createOptions() {
         const options = super.createOptions();
-        options.middleware =  {
+        options.middleware = {
             workspace: {
                 didChangeConfiguration: () => {
                     this.languageClient.then(client => {
@@ -74,23 +80,23 @@ export class XMLClientContribution extends BaseLanguageClientContribution {
         const configXML = this.workspace.configurations!.getConfiguration('xml');
         let settings: JSON;
         if (!configXML) {
-          const defaultValue = {
-            trace: {
-              server: 'verbose'
-            },
-            logs: {
-              client: true
-            },
-            format: {
-              enabled: true,
-              splitAttributes: false
+            const defaultValue = {
+                trace: {
+                    server: 'verbose'
+                },
+                logs: {
+                    client: true
+                },
+                format: {
+                    enabled: true,
+                    splitAttributes: false
+                }
             }
-          }
-          const x = JSON.stringify(defaultValue);
-          settings = JSON.parse(x);
+            const x = JSON.stringify(defaultValue);
+            settings = JSON.parse(x);
         } else {
-          const x = JSON.stringify(configXML);
-          settings = JSON.parse(x);
+            const x = JSON.stringify(configXML);
+            settings = JSON.parse(x);
         }
         return settings;
     }

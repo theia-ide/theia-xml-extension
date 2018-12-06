@@ -18,11 +18,8 @@ import { ContainerModule } from "inversify";
 import { bindXMLPreferences } from './xml-preferences';
 import { LanguageClientContribution } from "@theia/languages/lib/browser";
 import { XMLClientContribution } from "./xml-client-contribution";
-import { LanguageGrammarDefinitionContribution } from "@theia/monaco/lib/browser/textmate";
-import { XmlGrammarContribution } from "./xml-grammar-contribution";
 
 export default new ContainerModule(bind => {
     bindXMLPreferences(bind);
     bind(LanguageClientContribution).to(XMLClientContribution).inSingletonScope();
-    bind(LanguageGrammarDefinitionContribution).to(XmlGrammarContribution).inSingletonScope();
 });

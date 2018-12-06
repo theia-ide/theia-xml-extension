@@ -16,7 +16,8 @@
     "lsp4xml"
   ],
   "dependencies": {
-    "@theia/core": "next"
+    "@theia/core": "next",
+    "@theia/textmate-grammars": "next"
   },
   "devDependencies": {
     "rimraf": "^2.6.2",
