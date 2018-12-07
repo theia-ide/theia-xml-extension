@@ -20,11 +20,6 @@ import { createPreferenceProxy, PreferenceProxy, PreferenceService, PreferenceCo
 export const XMLConfigSchema: PreferenceSchema = {
     'type': 'object',
     "properties": {
-        "xml.logs.client": {
-            "type": "boolean",
-            "default": false,
-            "description": "Enable/disable client log"
-        },
         "xml.format.enabled": {
             "type": "boolean",
             "default": true,
@@ -35,20 +30,31 @@ export const XMLConfigSchema: PreferenceSchema = {
             "default": false,
             "description": "Split multiple attributes each onto a new line"
         },
-         "xml.format.joinCDATALines": {
+        "xml.format.joinCDATALines": {
             "type": "boolean",
             "default": false,
             "description": "Join lines in a CDATA tag's content"
         },
-         "xml.format.spaceBeforeEmptyCloseTag": {
+        "xml.format.spaceBeforeEmptyCloseTag": {
             "type": "boolean",
             "default": true,
             "description": "Insert space before end of self closing tag. \nExample:\n  <tag/> -> <tag />"
-        }
+        },
+        "xml.logs.client": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable/disable client log"
+        },
+        "xml.server.vmargs": {
+            "type": "string",
+            "default": "-noverify -Xmx64M -XX:+UseG1GC -XX:+UseStringDeduplication",
+            "description": "Specifies extra VM arguments used to launch the XML Language Server. Eg. use `-noverify -Xmx1G  -XX:+UseG1GC -XX:+UseStringDeduplication` to bypass class verification, increase the heap size to 1GB and enable String deduplication with the G1 Garbage collector"
+        },
     }
 };
 
 export interface XMLConfiguration {
+    'xml.server.vmargs': 'string'
 }
 
 export const XMLPreferences = Symbol('XMLPreferences');

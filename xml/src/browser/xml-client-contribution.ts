@@ -19,6 +19,7 @@ import { BaseLanguageClientContribution, Workspace, Languages, LanguageClientFac
 import { XML_LANGUAGE_ID, XML_LANGUAGE_NAME } from '../common';
 import { ResourceProvider } from "@theia/core";
 import URI from "@theia/core/lib/common/uri";
+import { XMLPreferences } from "./xml-preferences";
 
 @injectable()
 export class XMLClientContribution extends BaseLanguageClientContribution {
@@ -31,6 +32,7 @@ export class XMLClientContribution extends BaseLanguageClientContribution {
         @inject(ResourceProvider) protected readonly resourceProvider: ResourceProvider,
         @inject(Languages) protected readonly languages: Languages,
         @inject(LanguageClientFactory) protected readonly languageClientFactory: LanguageClientFactory,
+        @inject(XMLPreferences) protected readonly preferences: XMLPreferences
     ) {
         super(workspace, languages, languageClientFactory);
     }
@@ -62,6 +64,12 @@ export class XMLClientContribution extends BaseLanguageClientContribution {
         });
         super.onReady(languageClient);
     }
+
+
+    protected async getStartParameters(): Promise<string> {
+        return this.preferences['xml.server.vmargs'];
+    }
+    
     createOptions() {
         const options = super.createOptions();
         options.middleware = {
