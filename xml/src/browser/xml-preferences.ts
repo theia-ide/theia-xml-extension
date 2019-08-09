@@ -40,6 +40,24 @@ export const XMLConfigSchema: PreferenceSchema = {
             "default": true,
             "description": "Insert space before end of self closing tag. \nExample:\n  <tag/> -> <tag />"
         },
+        "xml.fileAssociations": {
+            "type": "array",
+            "default": [],
+            "items": {
+                "type": "object",
+                "properties": {
+                    "systemId": {
+                        "type": "string",
+                        "description": "The path or URL to the XML schema (XSD or DTD)"
+                    },
+                    "pattern": {
+                        "type": "string",
+                        "description": "File glob pattern. Example: **/*.Format.ps1xml\n\nMore information on the glob syntax: https://docs.oracle.com/javase/tutorial/essential/io/fileOps.html#glob",
+                    }
+                }
+            },
+            "description": "Allows XML schemas to be associated to file name patterns.\n\nExample:\n[{\n  \"systemId\": \"path/to/file.xsd\",\n  \"pattern\": \"file1.xml\"\n},\n{\n  \"systemId\": \"http://www.w3.org/2001/XMLSchema.xsd\",\n  \"pattern\": \"**/*.xsd\"\n}]",
+        },
         "xml.logs.client": {
             "type": "boolean",
             "default": false,
